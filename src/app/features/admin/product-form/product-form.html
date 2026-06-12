@@ -80,6 +80,20 @@
     </div>
 
     <div class="form-group full-width">
+      <label>Image Preview</label>
+      <div class="image-preview-wrapper">
+        @if (form.get('thumbnail')?.value && !form.get('thumbnail')?.errors) {
+          <img [src]="form.get('thumbnail')?.value" alt="Thumbnail Preview" class="img-preview" />
+        } @else {
+          <div class="no-preview">
+            <i class="bi bi-image"></i>
+            <span>No Image Preview</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="form-group full-width">
       <label for="description">Description</label>
       <textarea
         id="description"

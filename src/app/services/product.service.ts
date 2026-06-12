@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, delay } from 'rxjs';
+import { Observable, delay, map } from 'rxjs';
 import { Product, ProductsResponse, CreateProductDTO, UpdateProductDTO } from '../core/models/product.model';
 
 @Injectable({
@@ -42,7 +42,19 @@ export class ProductService {
    * Get all categories
    */
   getCategories(): Observable<string[]> {
-    return this.http.get<string[]>('https://dummyjson.com/products/categories');
+    return this.http.get<any[]>('https://dummyjson.com/products/categories').pipe(
+      map((categories) => {
+        if (Array.isArray(categories)) {
+          return categories.map((cat) => {
+            if (cat && typeof cat === 'object' && 'slug' in cat) {
+              return cat.slug;
+            }
+            return String(cat);
+          });
+        }
+        return [];
+      })
+    );
   }
 
   /**
