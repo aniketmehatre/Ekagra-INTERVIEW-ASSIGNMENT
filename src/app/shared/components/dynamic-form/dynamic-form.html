@@ -1,0 +1,91 @@
+<div class="dynamic-form" [formGroup]="formGroup">
+  <ng-container *ngFor="let field of fields">
+    <ng-container *ngIf="isVisible(field)">
+      <div class="dynamic-form-field" [ngClass]="{ 'dynamic-form-checkbox': field.type === 'checkbox' }">
+        <label class="dynamic-form-label" [attr.for]="field.key">
+          {{ field.label }}
+        </label>
+
+        <ng-container [ngSwitch]="field.type">
+          <input
+            *ngSwitchCase="'text'"
+            [id]="field.key"
+            type="text"
+            [placeholder]="field.placeholder"
+            [formControlName]="field.key"
+            class="form-control"
+          />
+
+          <input
+            *ngSwitchCase="'email'"
+            [id]="field.key"
+            type="email"
+            [placeholder]="field.placeholder"
+            [formControlName]="field.key"
+            class="form-control"
+          />
+
+          <input
+            *ngSwitchCase="'tel'"
+            [id]="field.key"
+            type="tel"
+            [placeholder]="field.placeholder"
+            [formControlName]="field.key"
+            class="form-control"
+          />
+
+          <input
+            *ngSwitchCase="'number'"
+            [id]="field.key"
+            type="number"
+            [placeholder]="field.placeholder"
+            [formControlName]="field.key"
+            class="form-control"
+          />
+
+          <input
+            *ngSwitchCase="'password'"
+            [id]="field.key"
+            type="password"
+            [placeholder]="field.placeholder"
+            [formControlName]="field.key"
+            class="form-control"
+          />
+
+          <textarea
+            *ngSwitchCase="'textarea'"
+            [id]="field.key"
+            rows="4"
+            [placeholder]="field.placeholder"
+            [formControlName]="field.key"
+            class="form-control"
+          ></textarea>
+
+          <select
+            *ngSwitchCase="'select'"
+            [id]="field.key"
+            [formControlName]="field.key"
+            class="form-select"
+          >
+            <option value="" disabled>Select</option>
+            <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+          </select>
+
+          <div *ngSwitchCase="'checkbox'" class="dynamic-form-checkbox-field">
+            <input
+              type="checkbox"
+              [id]="field.key"
+              [formControlName]="field.key"
+              class="form-check-input"
+            />
+            <label [attr.for]="field.key" class="form-check-label">{{ field.placeholder || field.label }}</label>
+          </div>
+        </ng-container>
+
+        <div class="dynamic-form-error" *ngIf="getError(field)">
+          {{ getError(field) }}
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

@@ -1,0 +1,226 @@
+<div class="product-management-container">
+  <!-- Header Section -->
+  <div class="management-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <i class="bi bi-boxes"></i>
+        Product Management
+      </h1>
+      <p class="page-subtitle">Manage your product inventory and catalog</p>
+    </div>
+    <button class="btn btn-primary btn-lg" (click)="openAddForm()">
+      <i class="bi bi-plus-circle"></i>
+      Add New Product
+    </button>
+  </div>
+
+  <!-- Filter & Search Section -->
+  <div class="filters-section">
+    <div class="search-box">
+      <i class="bi bi-search"></i>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by product title or description..."
+        [value]="searchInput()"
+        (input)="onSearchChange($event.target.value)"
+      />
+    </div>
+
+    <select
+      class="form-select category-filter"
+      aria-label="Category filter"
+      [value]="categoryFilter()"
+      (change)="onCategoryChange($any($event.target).value)"
+    >
+      @for (cat of categoriesWithAll(); track cat) {
+        <option [value]="cat">
+          {{ cat === 'all' ? 'All Categories' : cat }}
+        </option>
+      }
+    </select>
+
+    <div class="results-info">
+      <span class="result-count">
+        {{ totalProducts() }} product<span *ngIf="totalProducts() !== 1">s</span> found
+      </span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  @if (error()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle"></i>
+      {{ error() }}
+      <button
+        type="button"
+        class="btn-close"
+        (click)="error.set(null)"
+        aria-label="Close"
+      ></button>
+    </div>
+  }
+
+  <!-- Loading State - Skeleton Loaders -->
+  @if (loading()) {
+    <div class="products-table-wrapper">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of [0, 1, 2, 3, 4]; track item) {
+            <tr class="skeleton-row">
+              <td><app-skeleton-loader type="text" [count]="1"></app-skeleton-loader></td>
+              <td><app-skeleton-loader type="circle" [count]="1"></app-skeleton-loader></td>
+              <td><app-skeleton-loader type="text" [count]="1"></app-skeleton-loader></td>
+              <td><app-skeleton-loader type="text" [count]="1"></app-skeleton-loader></td>
+              <td><app-skeleton-loader type="text" [count]="1"></app-skeleton-loader></td>
+              <td><app-skeleton-loader type="text" [count]="1"></app-skeleton-loader></td>
+              <td><app-skeleton-loader type="text" [count]="1"></app-skeleton-loader></td>
+              <td><app-skeleton-loader type="text" [count]="1"></app-skeleton-loader></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <!-- Products Table -->
+    <div class="products-table-wrapper">
+      @if (filteredProducts().length > 0) {
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="col-id">ID</th>
+              <th class="col-image">Image</th>
+              <th>Name</th>
+              <th class="col-category">Category</th>
+              <th class="col-price">Price</th>
+              <th class="col-stock">Stock</th>
+              <th class="col-status">Status</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of filteredProducts(); track trackByProductId($index, product)) {
+              <tr class="product-row">
+                <!-- ID -->
+                <td class="text-muted fw-semibold">
+                  <small>#{{ product.id }}</small>
+                </td>
+
+                <!-- Product Image -->
+                <td>
+                  <div class="product-image-cell">
+                    <img
+                      [src]="product.thumbnail"
+                      alt="{{ product.title }}"
+                      title="{{ product.title }}"
+                      class="product-thumbnail"
+                    />
+                  </div>
+                </td>
+
+                <!-- Product Name -->
+                <td class="fw-semibold">
+                  <div class="product-name" [title]="product.title">
+                    {{ product.title }}
+                  </div>
+                  @if (product.rating) {
+                    <small class="text-muted">
+                      <i class="bi bi-star-fill text-warning"></i>
+                      {{ product.rating }}
+                    </small>
+                  }
+                </td>
+
+                <!-- Category -->
+                <td>
+                  <span class="badge bg-info">{{ product.category }}</span>
+                </td>
+
+                <!-- Price -->
+                <td class="fw-semibold text-success">
+                  ${{ product.price.toFixed(2) }}
+                </td>
+
+                <!-- Stock -->
+                <td>
+                  <span class="stock-badge" [ngClass]="{ 'low-stock': product.stock <= 5 }">
+                    {{ product.stock }}
+                  </span>
+                </td>
+
+                <!-- Status -->
+                <td>
+                  <span
+                    class="badge"
+                    [ngClass]="getStockBadgeClass(product.stock)"
+                  >
+                    {{ getStockStatus(product.stock) }}
+                  </span>
+                </td>
+
+                <!-- Actions -->
+                <td>
+                  <div class="action-buttons">
+                    <button
+                      class="btn btn-sm btn-outline-primary"
+                      (click)="openEditForm(product)"
+                      title="Edit"
+                    >
+                      <i class="bi bi-pencil"></i>
+                      Edit
+                    </button>
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      (click)="deleteProduct(product.id)"
+                      title="Delete"
+                    >
+                      <i class="bi bi-trash"></i>
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <!-- No Products Found -->
+        <div class="empty-state">
+          <i class="bi bi-inbox"></i>
+          <h3>No Products Found</h3>
+          <p>Try adjusting your search or filters</p>
+          <button class="btn btn-primary" (click)="openAddForm()">
+            <i class="bi bi-plus-circle"></i>
+            Add Your First Product
+          </button>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Add/Edit Product Modal -->
+  @if (showForm()) {
+    <div class="modal-overlay" (click)="closeForm()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <app-product-form
+          [product]="selectedProduct() || undefined"
+          [categories]="categories()"
+          (save)="onSaveProduct($event)"
+          (close)="closeForm()"
+        ></app-product-form>
+      </div>
+    </div>
+  }
+</div>

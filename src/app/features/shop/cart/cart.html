@@ -1,0 +1,53 @@
+<section class="cart container py-4">
+  <h2>Your cart</h2>
+
+  <div *ngIf="items().length === 0" class="alert alert-info">
+    Your cart is empty. <a [routerLink]="['/shop']">Browse products</a> to add items.
+  </div>
+
+  <div *ngIf="items().length > 0" class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items()">
+          <td>
+            <a [routerLink]="['/shop/products', item.product.id]">{{ item.product.title }}</a>
+            <div class="text-muted small">{{ item.product.category }}</div>
+          </td>
+          <td>${{ item.product.price.toFixed(2) }}</td>
+          <td>
+              <input
+                type="number"
+                id="cartQuantity{{ item.product.id }}"
+                class="form-control form-control-sm"
+                [value]="item.quantity"
+                min="1"
+                placeholder="Qty"
+                title="Quantity"
+                (change)="updateQuantity(item.product.id, $event.target.value)"
+              />
+          </td>
+          <td>${{ (item.product.price * item.quantity).toFixed(2) }}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-danger" type="button" (click)="removeItem(item.product.id)">Remove</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <div>
+        <strong>Total:</strong> ${{ subtotal.toFixed(2) }}
+      </div>
+      <a class="btn btn-primary" [routerLink]="['/shop/checkout/step/1']">Proceed to checkout</a>
+    </div>
+  </div>
+ </section>

@@ -1,0 +1,21 @@
+<article class="product-card">
+  <a [routerLink]="['/shop/products', product.id]" class="product-card-link">
+    <div class="product-card-image">
+      <img [src]="product.thumbnail" [alt]="product.title" />
+    </div>
+    <div class="product-card-content">
+      <div class="product-card-labels">
+        <span class="product-category">{{ product.category }}</span>
+        <span class="product-stock" [class]="statusClass">{{ isOutOfStock ? 'Out of stock' : product.stock + ' available' }}</span>
+      </div>
+      <h3 class="product-title">{{ product.title }}</h3>
+      <p class="product-description">{{ product.description }}</p>
+    </div>
+  </a>
+  <div class="product-card-footer">
+    <span class="product-price">${{ product.price.toFixed(2) }}</span>
+    <button class="btn btn-primary btn-add" type="button" (click)="onAddToCart()" [disabled]="isOutOfStock">
+      {{ isOutOfStock ? 'Notify me' : 'Add to cart' }}
+    </button>
+  </div>
+</article>

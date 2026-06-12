@@ -1,0 +1,25 @@
+.catalog-shell {
+  margin-top: 1rem;
+}
+
+.catalog-toolbar {
+  align-items: flex-end;
+}
+
+.catalog-filters {
+  gap: 1rem;
+}
+
+.catalog-categories {
+  flex-wrap: wrap;
+}
+
+.catalog-list {
+  margin-top: 1.5rem;
+}
+
+.catalog-head h6 {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}

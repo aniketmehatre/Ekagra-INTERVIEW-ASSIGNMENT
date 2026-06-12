@@ -1,0 +1,40 @@
+.dynamic-form {
+  display: grid;
+  gap: 16px;
+}
+
+.dynamic-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dynamic-form-checkbox {
+  flex-direction: row;
+  align-items: center;
+}
+
+.dynamic-form-checkbox-field {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dynamic-form-label {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  background: white;
+}
+
+.dynamic-form-error {
+  color: #c53030;
+  font-size: 13px;
+}

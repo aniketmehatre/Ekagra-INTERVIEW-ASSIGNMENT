@@ -1,0 +1,111 @@
+<section class="checkout container py-4">
+  <h2>Checkout</h2>
+
+  <div *ngIf="orderId() !== null" class="alert alert-success">
+    <h4>Order confirmed!</h4>
+    <p>Your order ID is <strong>#{{ orderId() }}</strong>.</p>
+    <a class="btn btn-primary" [routerLink]="['/shop']">Continue shopping</a>
+  </div>
+
+  <div *ngIf="orderId() === null">
+    <div class="checkout-progress mb-4">
+      <span class="badge rounded-pill bg-secondary me-2" [class.bg-primary]="currentStep() === 1">1</span>
+      <span class="me-3">Shipping</span>
+      <span class="badge rounded-pill bg-secondary me-2" [class.bg-primary]="currentStep() === 2">2</span>
+      <span class="me-3">Payment</span>
+      <span class="badge rounded-pill bg-secondary me-2" [class.bg-primary]="currentStep() === 3">3</span>
+      <span>Review</span>
+    </div>
+
+    <div *ngIf="currentStep() === 1">
+      <form [formGroup]="shippingForm" class="row gx-3 gy-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label" for="fullName">Full name</label>
+          <input id="fullName" class="form-control" formControlName="fullName" placeholder="Full name" title="Full name" />
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label" for="email">Email</label>
+          <input id="email" class="form-control" formControlName="email" placeholder="Email" title="Email" />
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label" for="phone">Phone</label>
+          <input id="phone" class="form-control" formControlName="phone" placeholder="Phone" title="Phone" />
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="addressLine1">Address line 1</label>
+          <input id="addressLine1" class="form-control" formControlName="addressLine1" placeholder="Address line 1" title="Address line 1" />
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="addressLine2">Address line 2</label>
+          <input id="addressLine2" class="form-control" formControlName="addressLine2" placeholder="Address line 2" title="Address line 2" />
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label" for="city">City</label>
+          <input id="city" class="form-control" formControlName="city" placeholder="City" title="City" />
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label" for="postalCode">Postal code</label>
+          <input id="postalCode" class="form-control" formControlName="postalCode" placeholder="Postal code" title="Postal code" />
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label" for="country">Country</label>
+          <input id="country" class="form-control" formControlName="country" placeholder="Country" title="Country" />
+        </div>
+      </form>
+
+      <div class="mt-4 d-flex justify-content-end">
+        <button class="btn btn-primary" type="button" (click)="completeStepOne()">Continue to payment</button>
+      </div>
+    </div>
+
+    <div *ngIf="currentStep() === 2">
+      <form [formGroup]="paymentForm" class="row gx-3 gy-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label" for="cardholderName">Cardholder name</label>
+          <input id="cardholderName" class="form-control" formControlName="cardholderName" placeholder="Cardholder name" title="Cardholder name" />
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label" for="cardNumber">Card number</label>
+          <input id="cardNumber" class="form-control" formControlName="cardNumber" placeholder="Card number" title="Card number" />
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label" for="expiry">Expiry (MM/YY)</label>
+          <input id="expiry" class="form-control" formControlName="expiry" placeholder="MM/YY" title="Expiry" />
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label" for="cvv">CVV</label>
+          <input id="cvv" class="form-control" formControlName="cvv" placeholder="CVV" title="CVV" />
+        </div>
+      </form>
+
+      <div class="mt-4 d-flex justify-content-between align-items-center">
+        <a class="btn btn-link" [routerLink]="['/shop/checkout/step/1']">Back to shipping</a>
+        <button class="btn btn-primary" type="button" (click)="completeStepTwo()">Review order</button>
+      </div>
+    </div>
+
+    <div *ngIf="currentStep() === 3">
+      <div class="card p-4 mb-4">
+        <h4>Order summary</h4>
+        <p class="mb-1">Shipping to: <strong>{{ shippingForm.controls.fullName.value }}</strong></p>
+        <p class="mb-1">Email: <strong>{{ shippingForm.controls.email.value }}</strong></p>
+        <p class="mb-3">Total: <strong>${{ total().toFixed(2) }}</strong></p>
+        <ng-container *ngFor="let item of items()">
+          <div class="d-flex justify-content-between mb-2">
+            <span>{{ item.product.title }} x{{ item.quantity }}</span>
+            <span>${{ (item.product.price * item.quantity).toFixed(2) }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <div *ngIf="errorMessage()" class="alert alert-danger">{{ errorMessage() }}</div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <a class="btn btn-link" [routerLink]="['/shop/checkout/step/2']">Back to payment</a>
+        <button class="btn btn-success" type="button" (click)="placeOrder()" [disabled]="loading()">
+          {{ loading() ? 'Placing order...' : 'Place order' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

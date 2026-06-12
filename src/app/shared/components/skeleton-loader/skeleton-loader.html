@@ -1,0 +1,36 @@
+@switch (type) {
+  @case ('row') {
+    <div class="skeleton-row">
+      <div class="skeleton-cell skeleton-circle"></div>
+      <div class="skeleton-cell skeleton-text"></div>
+      <div class="skeleton-cell skeleton-text"></div>
+      <div class="skeleton-cell skeleton-text"></div>
+      <div class="skeleton-cell skeleton-text"></div>
+      <div class="skeleton-cell skeleton-text"></div>
+    </div>
+  }
+  @case ('circle') {
+    @for (item of items; track item) {
+      <div class="skeleton-circle"></div>
+    }
+  }
+  @case ('card') {
+    @for (item of items; track item) {
+      <div class="skeleton-card">
+        <div class="skeleton-image"></div>
+        <div class="skeleton-content">
+          <div class="skeleton-text skeleton-title"></div>
+          <div class="skeleton-text"></div>
+          <div class="skeleton-text skeleton-short"></div>
+        </div>
+      </div>
+    }
+  }
+  @default {
+    @for (row of rowItems; track row) {
+      <div class="skeleton-text-group">
+        <div class="skeleton-text"></div>
+      </div>
+    }
+  }
+}

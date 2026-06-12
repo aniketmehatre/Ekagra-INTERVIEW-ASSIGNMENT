@@ -1,0 +1,106 @@
+<div class="catalog-shell container py-4">
+  <section class="catalog-head d-flex flex-column gap-3 mb-4">
+    <div class="catalog-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div class="catalog-search input-group w-100 w-md-50">
+        <span class="input-group-text">Search</span>
+        <input
+          class="form-control"
+          type="search"
+          placeholder="Search products, descriptions, categories"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="onQueryChange($event)"
+        />
+      </div>
+
+      <div class="catalog-actions d-flex gap-2 align-items-center">
+        <a class="btn btn-outline-secondary" [routerLink]="['/shop/cart']">View cart ({{ itemCount() }})</a>
+      </div>
+    </div>
+
+    <div class="catalog-filters row gx-3 gy-3">
+      <div class="col-12 col-md-4">
+        <div class="form-control form-control-sm p-3">
+          <h6>Categories</h6>
+          <div class="catalog-categories d-flex flex-wrap gap-2 mt-2">
+            <button
+              type="button"
+              class="btn btn-sm"
+              [class.btn-primary]="selectedCategories().length === 0"
+              [class.btn-outline-secondary]="selectedCategories().length !== 0"
+              (click)="toggleCategory('all')"
+            >
+              All
+            </button>
+            <button
+              *ngFor="let category of categories(); trackBy: trackByCategory"
+              type="button"
+              class="btn btn-sm"
+              [class.btn-primary]="selectedCategories().includes(category)"
+              [class.btn-outline-secondary]="!selectedCategories().includes(category)"
+              (click)="toggleCategory(category)"
+            >
+              {{ category }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="form-control form-control-sm p-3">
+          <h6>Price range</h6>
+          <div class="d-flex align-items-center gap-2">
+            <input
+              type="number"
+              class="form-control"
+              [value]="localPriceRange().min"
+              (input)="updateLocalPriceRange('min', $any($event.target).valueAsNumber)"
+              (change)="onPriceRangeChange()"
+              min="0"
+              placeholder="Min"
+            />
+            <input
+              type="number"
+              class="form-control"
+              [value]="localPriceRange().max"
+              (input)="updateLocalPriceRange('max', $any($event.target).valueAsNumber)"
+              (change)="onPriceRangeChange()"
+              min="0"
+              placeholder="Max"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="form-control form-control-sm p-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [checked]="inStockOnly()"
+              id="inStockOnly"
+              (change)="onStockToggle()"
+            />
+            <label class="form-check-label" for="inStockOnly">In stock only</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog-list">
+    <div *ngIf="loading()" class="d-flex justify-content-center py-5">
+      <app-skeleton-loader type="card" [count]="6"></app-skeleton-loader>
+    </div>
+
+    <div *ngIf="!loading() && products().length === 0" class="text-center py-5">
+      <p class="mb-0">No products match your search or filters.</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="!loading() && products().length > 0">
+      <div class="col" *ngFor="let product of products(); trackBy: trackByProduct">
+        <app-product-card [product]="product" (addToCart)="addToCart(product, $event)"></app-product-card>
+      </div>
+    </div>
+  </section>
+</div>

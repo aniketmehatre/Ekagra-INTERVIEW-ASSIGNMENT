@@ -1,0 +1,134 @@
+{
+  "fields": [
+    {
+      "key": "fullName",
+      "label": "Full name",
+      "type": "text",
+      "placeholder": "Enter your full name",
+      "validators": {
+        "required": true,
+        "minLength": 3
+      }
+    },
+    {
+      "key": "email",
+      "label": "Email address",
+      "type": "email",
+      "placeholder": "Enter your email"
+    },
+    {
+      "key": "phone",
+      "label": "Phone number",
+      "type": "tel",
+      "placeholder": "Enter your phone number"
+    },
+    {
+      "key": "addressLine1",
+      "label": "Address line 1",
+      "type": "text",
+      "placeholder": "Street address",
+      "validators": {
+        "required": true
+      }
+    },
+    {
+      "key": "addressLine2",
+      "label": "Address line 2",
+      "type": "text",
+      "placeholder": "Apartment, suite, unit (optional)"
+    },
+    {
+      "key": "city",
+      "label": "City",
+      "type": "text",
+      "placeholder": "Enter your city",
+      "validators": {
+        "required": true
+      }
+    },
+    {
+      "key": "postalCode",
+      "label": "Postal code",
+      "type": "text",
+      "placeholder": "Postal or ZIP code",
+      "validators": {
+        "required": true,
+        "pattern": "^[0-9A-Za-z-]{3,10}$"
+      }
+    },
+    {
+      "key": "country",
+      "label": "Country",
+      "type": "text",
+      "placeholder": "Country",
+      "validators": {
+        "required": true
+      }
+    },
+    {
+      "key": "billingSameAsDelivery",
+      "label": "Billing same as delivery",
+      "type": "checkbox",
+      "placeholder": "Use delivery address for billing"
+    },
+    {
+      "key": "billingAddressLine1",
+      "label": "Billing address line 1",
+      "type": "text",
+      "placeholder": "Billing street address",
+      "validators": {
+        "required": true
+      },
+      "visibleWhen": {
+        "field": "billingSameAsDelivery",
+        "equals": false
+      }
+    },
+    {
+      "key": "billingAddressLine2",
+      "label": "Billing address line 2",
+      "type": "text",
+      "placeholder": "Billing apartment, suite, unit"
+    },
+    {
+      "key": "billingCity",
+      "label": "Billing city",
+      "type": "text",
+      "placeholder": "Billing city",
+      "validators": {
+        "required": true
+      },
+      "visibleWhen": {
+        "field": "billingSameAsDelivery",
+        "equals": false
+      }
+    },
+    {
+      "key": "billingPostalCode",
+      "label": "Billing postal code",
+      "type": "text",
+      "placeholder": "Billing postal or ZIP code",
+      "validators": {
+        "required": true,
+        "pattern": "^[0-9A-Za-z-]{3,10}$"
+      },
+      "visibleWhen": {
+        "field": "billingSameAsDelivery",
+        "equals": false
+      }
+    },
+    {
+      "key": "billingCountry",
+      "label": "Billing country",
+      "type": "text",
+      "placeholder": "Billing country",
+      "validators": {
+        "required": true
+      },
+      "visibleWhen": {
+        "field": "billingSameAsDelivery",
+        "equals": false
+      }
+    }
+  ]
+}

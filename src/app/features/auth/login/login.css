@@ -1,0 +1,147 @@
+.login-wrapper {
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 0px 30px;
+    background: #ffffff;
+    animation: fadeIn .3s ease-out;
+}
+
+.title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 400;
+    color: #00766c;
+    margin-bottom: 40px;
+    letter-spacing: 0.5px;
+}
+
+.form-group-custom {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.custom-input {
+    width: 100%;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid #cccccc;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: #333333;
+    background-color: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-input:focus {
+    outline: none;
+    border-color: #008075;
+    box-shadow: 0 0 0 3px rgba(0, 128, 117, 0.1);
+}
+
+.custom-input::placeholder {
+    color: #999999;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #555555;
+    margin-top: -12px;
+    margin-bottom: 30px;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #008075;
+    cursor: pointer;
+}
+
+.login-btn {
+    display: block;
+    width: auto;
+    min-width: 140px;
+    height: 46px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 6px;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: #008075;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.login-btn:hover {
+    background-color: #00665d;
+}
+
+.login-btn:active {
+    transform: scale(0.98);
+}
+
+.text-danger {
+    font-size: 12px;
+    color: #dc3545;
+    margin-top: 4px;
+    display: block;
+}
+
+.alert-danger {
+    padding: 12px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    color: #842029;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.demo-users {
+    margin-top: 35px;
+    padding: 16px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+.demo-users h6 {
+    font-weight: 600;
+    font-size: 12px;
+    color: #666666;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.demo-users p {
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #555555;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

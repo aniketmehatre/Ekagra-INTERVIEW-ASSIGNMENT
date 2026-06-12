@@ -1,0 +1,19 @@
+.cart h2 {
+  margin-bottom: 1.5rem;
+}
+
+.cart .table-responsive {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.cart .table th,
+.cart .table td {
+  vertical-align: middle;
+}
+
+.cart .alert-info {
+  margin-bottom: 1rem;
+}
